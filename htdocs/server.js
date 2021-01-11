@@ -40,7 +40,6 @@ io.on('connection', function(socket) {
     var player = players[socket.id] || {};
     if (data.left) {
       player.x -= 5;
-      console.log("w");
     }
     if (data.right) {
       player.x += 5;
