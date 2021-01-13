@@ -1,23 +1,16 @@
 {
-  "name": "fire_paa_stripe",
+  "name": "chess0",
   "version": "1.0.0",
-  "description": "Fire på rad prosjektet til 3STE",
+  "description": "An online chess website",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/elibor1/Fire_Paa_Stripe.git"
-  },
-  "author": "Elias Borge-Ilseth; Sondre Grini; Florian Leucht",
+  "author": "Aveek Saha",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/elibor1/Fire_Paa_Stripe/issues"
-  },
-  "homepage": "https://github.com/elibor1/Fire_Paa_Stripe#readme",
   "dependencies": {
-    "express": "^4.17.1",
-    "socket.io": "^3.0.5"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "socket.io": "^2.1.1"
   }
 }
