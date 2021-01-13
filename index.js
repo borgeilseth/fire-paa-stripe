@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 io.on('connection', function(socket) {
   // console.log(players);
   var color;
-  var playerId = Math.floor((Math.random() * 100) + 1)
+  var playerId = socket.id;
 
 
   console.log(playerId + ' connected');
