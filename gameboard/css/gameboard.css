@@ -34,17 +34,20 @@
             user-select: none;
 }
 
-/* white square */
+/* standard square */
 .white-1e1d7 {
   background-color: #f0d9b5;
-  color: #b58863;
+  /* border: 1px solid black; */
 }
 
-/* black square */
-.black-3c85d {
-  background-color: #b58863;
-  color: #f0d9b5;
+.blue-vp7jdt{
+  background-color: #0000ff;
 }
+
+.red-se2h1c{
+  background-color: #ff0000;
+}
+
 
 /* highlighted square */
 .highlight1-32417, .highlight2-9c5d2 {

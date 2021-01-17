@@ -3,6 +3,5 @@ cd til filplasseringen og kjør:
 
 ```
 npm install
-node index.js
-
+npm start
 ```

@@ -2,7 +2,7 @@ const express = require('express');
 const http = require('http');
 const socket = require('socket.io');
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5000;
 
 var app = express();
 const server = http.createServer(app)
@@ -47,8 +47,8 @@ io.on('connection', function(socket) {
     players = games[roomId].players
 
 
-    if (players % 2 == 0) color = 'black';
-    else color = 'white';
+    if (players % 2 == 0) color = 'red';
+    else color = 'blue';
 
     socket.emit('player', {
       playerId,
@@ -63,7 +63,7 @@ io.on('connection', function(socket) {
 
   socket.on('move', function(msg) {
     socket.broadcast.emit('move', msg);
-    // console.log(msg);
+    //console.log(msg);
   });
 
   socket.on('play', function(msg) {

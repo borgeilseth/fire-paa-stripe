@@ -1,13 +1,13 @@
 {
-  "name": "chess0",
+  "name": "Fire_paa_stribe",
   "version": "1.0.0",
-  "description": "An online chess website",
+  "description": "En online fire på rad server",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "author": "Aveek Saha",
+  "author": "Elias, Flor og Sondre",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",

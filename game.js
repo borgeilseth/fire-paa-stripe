@@ -1,7 +1,7 @@
-game = new Chess();
+//game = new Chess();
 var socket = io();
 
-var color = "white";
+var color = "blue";
 var players;
 var roomId;
 var play = true;
@@ -12,8 +12,8 @@ var button = document.getElementById("button")
 var state = document.getElementById('state')
 
 var connect = function() {
-  roomId = room.value;
-  if (roomId !== "" && parseInt(roomId) <= 100) {
+  roomId = parseInt(room.value);
+  if (roomId !== "" && roomId < 100 && roomId >= 0) {
     room.remove();
     roomNumber.innerHTML = "Room Number " + roomId;
     button.remove();
@@ -29,99 +29,23 @@ socket.on('full', function(msg) {
 socket.on('play', function(msg) {
   if (msg == roomId) {
     play = false;
-    state.innerHTML = "Game in progress"
+    state.innerHTML = "Game in Progress"
   }
   // console.log(msg)
 });
 
 socket.on('move', function(msg) {
+  console.log(msg);
   if (msg.room == roomId) {
-    game.move(msg.move);
-    board.position(game.fen());
-    console.log("moved")
+    board.move(msg.position, msg.move);
   }
 });
 
-var removeGreySquares = function() {
-  $('#board .square-55d63').css('background', '');
-};
-
-var greySquare = function(square) {
-  var squareEl = $('#board .square-' + square);
-
-  var background = '#a9a9a9';
-  if (squareEl.hasClass('black-3c85d') === true) {
-    background = '#696969';
-  }
-
-  squareEl.css('background', background);
-};
-
-var onDragStart = function(source, piece) {
-  // do not pick up pieces if the game is over
-  // or if it's not that side's turn
-  if (game.game_over() === true || play ||
-    (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
-    (game.turn() === 'b' && piece.search(/^w/) !== -1) ||
-    (game.turn() === 'w' && color === 'black') ||
-    (game.turn() === 'b' && color === 'white')) {
-    return false;
-  }
-  // console.log({play, players});
-};
-
-var onDrop = function(source, target) {
-  removeGreySquares();
-
-  // see if the move is legal
-  var move = game.move({
-    from: source,
-    to: target,
-    promotion: 'q' // NOTE: always promote to a queen for example simplicity
-  });
-  if (game.game_over()) {
+socket.on('gameOver', function(msg) {
+  if (msg == roomId) {
     state.innerHTML = 'GAME OVER';
-    socket.emit('gameOver', roomId)
   }
-
-  // illegal move
-  if (move === null) return 'snapback';
-  else
-    socket.emit('move', {
-      move: move,
-      board: game.fen(),
-      room: roomId
-    });
-
-};
-
-var onMouseoverSquare = function(square, piece) {
-  // get list of possible moves for this square
-  var moves = game.moves({
-    square: square,
-    verbose: true
-  });
-
-  // exit if there are no moves available for this square
-  if (moves.length === 0) return;
-
-  // highlight the square they moused over
-  greySquare(square);
-
-  // highlight the possible squares for this piece
-  for (var i = 0; i < moves.length; i++) {
-    greySquare(moves[i].to);
-  }
-};
-
-var onMouseoutSquare = function(square, piece) {
-  removeGreySquares();
-};
-
-var onSnapEnd = function() {
-  board.position(game.fen());
-};
-
+});
 
 socket.on('player', (msg) => {
   var plno = document.getElementById('player')
@@ -137,19 +61,75 @@ socket.on('player', (msg) => {
   } else
     state.innerHTML = "Waiting for Second player";
 
-
   var cfg = {
-    orientation: color,
-    draggable: true,
+    color: 'blue',
     position: 'start',
-    onDragStart: onDragStart,
+    onMouseoutColumn: onMouseoutColumn,
+    onMouseoverColumn: onMouseoverColumn,
     onDrop: onDrop,
-    onMouseoutSquare: onMouseoutSquare,
-    onMouseoverSquare: onMouseoverSquare,
-    onSnapEnd: onSnapEnd
+    onDropStart: onDropStart
   };
-  board = ChessBoard('board', cfg);
+  board = Board('board', cfg);
 });
 // console.log(color)
 
 var board;
+
+//-----------------------------------------------------------------------------------------------
+
+var removeGreyColumns = function() {
+  $('#board .square-55d63').css('background', '');
+  //console.log($('#board .square-55d63'));
+};
+
+var greyColumn = function(column) {
+  var columnEl = $('#board .column-' + column);
+
+  for (var i = 0; i < columnEl.length; i++) {
+    if ($(columnEl[i]).hasClass('blue-vp7jdt')) {
+      $(columnEl[i]).css('background', '#504AE4');
+    } else if ($(columnEl[i]).hasClass('red-se2h1c')) {
+      $(columnEl[i]).css('background', '#F24A42');
+    } else {
+      $(columnEl[i]).css('background', '#DBCCB5');
+    }
+  }
+};
+
+var onMouseoverColumn = function(column, square) {
+  // highlight the column they moused over
+  greyColumn(column, square);
+};
+
+var onMouseoutColumn = function(column) {
+  removeGreyColumns();
+};
+
+var onDrop = function(column, row, position) {
+  removeGreyColumns();
+  greyColumn(column);
+
+  var move = {
+    column: column,
+    row: row.toString(10),
+    square: column + row
+  }
+
+  if (board.game_over()) {
+    console.log('Game over');
+  }
+
+  //Emit move to server
+  socket.emit('move', {
+    move: move,
+    position: position,
+    room: roomId
+  });
+}
+
+var onDropStart = function(arguments) {
+  if (play || board.game_over() === true ||
+    board.turn() === color) {
+    return false
+  }
+};
