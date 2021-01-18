@@ -292,10 +292,13 @@
       if (typeof cfg.onDropStart === 'function' &&
         cfg.onDropStart() === false) return;
 
-      var index = CURRENT_POSITION[column].pushAtEmpty(color) + 1;
+      var index = CURRENT_POSITION[column].pushAtEmpty(color);
+      console.log(index, CURRENT_POSITION);
       if (index === false) return;
 
       drawPosition();
+
+      index += 1;
 
       if (cfg.hasOwnProperty('onDrop') === true &&
         typeof cfg.onDrop === 'function') {
