@@ -1,6 +1,6 @@
 {
   "name": "Fire_paa_stribe",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "En online fire på rad server",
   "main": "index.js",
