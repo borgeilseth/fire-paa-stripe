@@ -41,7 +41,7 @@ socket.on('move', function(msg) {
   }
 });
 
-socket.on('gameOver', function(msg) {
+socket.on('game over', function(msg) {
   if (msg == roomId) {
     state.innerHTML = 'GAME OVER';
   }
@@ -67,7 +67,8 @@ socket.on('player', (msg) => {
     onMouseoutColumn: onMouseoutColumn,
     onMouseoverColumn: onMouseoverColumn,
     onDrop: onDrop,
-    onDropStart: onDropStart
+    onDropStart: onDropStart,
+    onGameOver: onGameOver
   };
   board = Board('board', cfg);
 });
@@ -86,13 +87,7 @@ var greyColumn = function(column) {
   var columnEl = $('#board .column-' + column);
 
   for (var i = 0; i < columnEl.length; i++) {
-    if ($(columnEl[i]).hasClass('blue-vp7jdt')) {
-      $(columnEl[i]).css('background', '#504AE4');
-    } else if ($(columnEl[i]).hasClass('red-se2h1c')) {
-      $(columnEl[i]).css('background', '#F24A42');
-    } else {
-      $(columnEl[i]).css('background', '#DBCCB5');
-    }
+    $(columnEl[i]).css('background', '#DBCCB5');
   }
 };
 
@@ -105,19 +100,11 @@ var onMouseoutColumn = function(column) {
   removeGreyColumns();
 };
 
-var onDrop = function(column, row, position) {
-  removeGreyColumns();
-  greyColumn(column);
+var onDrop = function(move, position) {
+  // removeGreyColumns();
+  // greyColumn(column);
 
-  var move = {
-    column: column,
-    row: row.toString(10),
-    square: column + row
-  }
-
-  if (board.game_over()) {
-    console.log('Game over');
-  }
+  if (board.gameOver());
 
   //Emit move to server
   socket.emit('move', {
@@ -127,9 +114,15 @@ var onDrop = function(column, row, position) {
   });
 }
 
-var onDropStart = function(arguments) {
-  if (play || board.game_over() === true ||
-    board.turn() === color) {
+var onDropStart = function() {
+  if (play || board.turn() === color ||
+    board.gameOver() === true) {
     return false
   }
 };
+
+var onGameOver = function() {
+  console.log('game over');
+  state.innerHTML = 'GAME OVER';
+  socket.emit('game over', roomId);
+}

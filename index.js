@@ -62,6 +62,7 @@ io.on('connection', function(socket) {
   });
 
   socket.on('move', function(msg) {
+    console.log(games[msg.roomId]);
     socket.broadcast.emit('move', msg);
     //console.log(msg);
   });
@@ -69,6 +70,11 @@ io.on('connection', function(socket) {
   socket.on('play', function(msg) {
     socket.broadcast.emit('play', msg);
     console.log("ready " + msg);
+  });
+
+  socket.on('game over', function(msg) {
+    socket.broadcast.emit('game over', msg);
+    console.log('game over ' + msg);
   });
 
   socket.on('disconnect', function() {
@@ -85,4 +91,4 @@ io.on('connection', function(socket) {
 
 server.listen(port);
 console.log('Connected');
-console.log('Server lytter på port localhost:' + port);
+console.log('Server lytter på port:' + port);
