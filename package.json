@@ -1,7 +1,6 @@
 {
   "name": "Fire_paa_stribe",
-  "version": "1.0.1",
-  "private": true,
+  "version": "1.0.0",
   "description": "En online fire på rad server",
   "main": "index.js",
   "scripts": {
@@ -12,12 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "bufferutil": "^4.0.3",
     "express": "^4.16.3",
-    "socket.io": "^2.1.1",
-    "websocket": "^1.0.33"
-  },
-  "engines": {
-    "node": "14.x"
+    "socket.io": "^2.1.1"
   }
 }
