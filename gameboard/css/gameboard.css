@@ -15,9 +15,10 @@
 
 /* board */
 .board-b72b1 {
-  border: 2px solid #404040;
+  border: 0px solid #404040;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
+  box-shadow: 0 0 10px 2px #404040;
 }
 
 /* square */
@@ -38,24 +39,24 @@
 
 /* standard square */
 .white-1e1d7 {
-  background-color: #f0d9b5;
+  background-color: white;
   /* border: 1px solid black; */
 }
 
 .blue-vp7jdt{
-  background-color: #0000ff;
+  background-color: white;
 }
 
 .red-se2h1c{
-  background-color: #ff0000;
+  background-color: white;
 }
 
 
 /* highlighted square */
 .highlight1-32417, .highlight2-9c5d2 {
-  -webkit-box-shadow: inset 0 0 3px 3px yellow;
-  -moz-box-shadow: inset 0 0 3px 3px yellow;
-  box-shadow: inset 0 0 3px 3px yellow;
+  -webkit-box-shadow: inset 0 0 3px 3px grey;
+  -moz-box-shadow: inset 0 0 3px 3px grey;
+  box-shadow: inset 0 0 3px 3px grey;
 }
 
 /* notation */

@@ -87,7 +87,7 @@ var greyColumn = function(column) {
   var columnEl = $('#board .column-' + column);
 
   for (var i = 0; i < columnEl.length; i++) {
-    $(columnEl[i]).css('background', '#DBCCB5');
+    $(columnEl[i]).css('background', 'lightgrey');
   }
 };
 
